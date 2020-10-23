@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  easy-debug:
+    build:
+      context: ./
+      dockerfile: Dockerfile.debug
+    container_name: 'easy-debug'
+    env_file:
+      - ./.env
+    environment:
+      - GOPATH=/go
+    volumes:
+      - ~/go/pkg:/go/pkg
+      - .:/dockerdev
+    working_dir: /dockerdev
+    ports:
+      - 8080:8080
+      - 8082:8082
+      - 2345:2345
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: backend

@@ -1,0 +1,11 @@
+FROM golang as deps
+
+ENV GO111MODULE=off
+RUN go get github.com/derekparker/delve/cmd/dlv
+RUN mkdir -p /go/pkg
+
+FROM deps as runner
+
+WORKDIR /dockerdev
+ENV GO111MODULE=on
+CMD ["dlv", "debug", "--headless=true", "--listen=:2345", "--api-version=2", "--log"]
